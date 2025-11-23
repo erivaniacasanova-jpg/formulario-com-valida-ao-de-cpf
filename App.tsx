@@ -1,5 +1,5 @@
 import React from 'react';
-import { Footer } from './components/Footer';
+import { Footer } from './components/SiteFooter';
 import { RegistrationForm } from './components/RegistrationForm';
 import { REPRESENTATIVES, DEFAULT_REPRESENTATIVE } from './utils';
 
