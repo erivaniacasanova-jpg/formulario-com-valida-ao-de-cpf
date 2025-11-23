@@ -5,34 +5,37 @@ import { REPRESENTATIVES, DEFAULT_REPRESENTATIVE } from './utils';
 
 const App: React.FC = () => {
   // Lógica de roteamento manual para capturar ID da URL
-  // Remove barras iniciais e finais
-  const path = window.location.pathname.replace(/^\/|\/$/g, '');
+  // Decodifica a URL (para lidar com caracteres especiais) e pega o caminho
+  const rawPath = decodeURIComponent(window.location.pathname);
+  
+  // Remove barras iniciais/finais e pega apenas o primeiro segmento (o ID)
+  // Ex: "/135302/teste" vira "135302"
+  const path = rawPath.replace(/^\/|\/$/g, '').split('/')[0];
   
   let currentRepresentative = DEFAULT_REPRESENTATIVE;
   let error = false;
 
   // Se houver algo no path
   if (path) {
-    // 1. Verifica se o path corresponde exatamente a um ID conhecido
+    // 1. Verifica se o path corresponde exatamente a um ID conhecido na lista
     if (REPRESENTATIVES[path]) {
       currentRepresentative = REPRESENTATIVES[path];
     } else {
-      // 2. Se não encontrado, verificamos se é um ID válido (numérico)
-      // Isso previne que URLs de ambiente (ex: /apps/temp/1) quebrem a página
+      // 2. Se não encontrado, verificamos se é um ID válido (apenas números)
+      // Isso previne que URLs de ambiente de desenvolvimento ou arquivos (ex: main.js) quebrem a página
       const isNumericId = /^\d+$/.test(path);
 
       if (isNumericId) {
         // Se é puramente numérico e não está na lista, é um ID inválido -> Erro
         error = true;
       }
-      // Se contém letras ou caracteres especiais (como nas URLs de preview), 
-      // assumimos que é URL do sistema/ambiente e mantemos o Default (Francisco) sem erro.
+      // Se for texto ou outro caminho, assume que é página do sistema e carrega o padrão (Francisco)
     }
   }
 
   if (error) {
     return (
-       <div className="flex flex-col min-h-screen bg-[#eff6ff] items-center justify-center p-4">
+       <div className="flex flex-col min-h-screen bg-[#eff6ff] items-center justify-center p-4 font-sans">
          <div className="bg-white p-8 rounded-xl shadow-lg text-center max-w-md w-full border border-gray-100">
             <div className="mb-6 flex justify-center">
                <div className="bg-red-100 p-3 rounded-full">
@@ -42,7 +45,7 @@ const App: React.FC = () => {
                </div>
             </div>
             <h1 className="text-xl font-bold text-gray-900 mb-2">Representante não encontrado</h1>
-            <p className="text-gray-500 mb-6">O código informado não consta em nossa base de dados de representantes ativos.</p>
+            <p className="text-gray-500 mb-6">O código <strong>{path}</strong> não consta em nossa base de dados de representantes ativos.</p>
             <a href="/" className="inline-block w-full px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition duration-200 shadow-sm hover:shadow-md">
               Ir para página inicial
             </a>
