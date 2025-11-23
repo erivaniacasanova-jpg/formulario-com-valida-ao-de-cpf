@@ -1,5 +1,5 @@
 import React from 'react';
-import { Footer } from './components/SiteFooter';
+import SiteFooter from './components/SiteFooter';
 import { RegistrationForm } from './components/RegistrationForm';
 import { REPRESENTATIVES, DEFAULT_REPRESENTATIVE } from './utils';
 
@@ -61,7 +61,7 @@ const App: React.FC = () => {
         <RegistrationForm representative={currentRepresentative} />
       </main>
 
-      <Footer />
+      <SiteFooter />
     </div>
   );
 };
