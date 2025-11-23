@@ -1,35 +1,24 @@
 import React from 'react';
-import { Footer } from './components/SiteFooter';
+import SiteFooter from './components/SiteFooter';
 import { RegistrationForm } from './components/RegistrationForm';
 import { REPRESENTATIVES, DEFAULT_REPRESENTATIVE } from './utils';
 
 const App: React.FC = () => {
-  // Lógica de roteamento manual para capturar ID da URL
-  // Decodifica a URL (para lidar com caracteres especiais) e pega o caminho
   const rawPath = decodeURIComponent(window.location.pathname);
-  
-  // Remove barras iniciais/finais e pega apenas o primeiro segmento (o ID)
-  // Ex: "/135302/teste" vira "135302"
   const path = rawPath.replace(/^\/|\/$/g, '').split('/')[0];
   
   let currentRepresentative = DEFAULT_REPRESENTATIVE;
   let error = false;
 
-  // Se houver algo no path
   if (path) {
-    // 1. Verifica se o path corresponde exatamente a um ID conhecido na lista
     if (REPRESENTATIVES[path]) {
       currentRepresentative = REPRESENTATIVES[path];
     } else {
-      // 2. Se não encontrado, verificamos se é um ID válido (apenas números)
-      // Isso previne que URLs de ambiente de desenvolvimento ou arquivos (ex: main.js) quebrem a página
       const isNumericId = /^\d+$/.test(path);
 
       if (isNumericId) {
-        // Se é puramente numérico e não está na lista, é um ID inválido -> Erro
         error = true;
       }
-      // Se for texto ou outro caminho, assume que é página do sistema e carrega o padrão (Francisco)
     }
   }
 
@@ -51,17 +40,16 @@ const App: React.FC = () => {
             </a>
          </div>
        </div>
-    )
+    );
   }
 
   return (
     <div className="flex flex-col min-h-screen bg-[#eff6ff] font-sans">
-      
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
         <RegistrationForm representative={currentRepresentative} />
       </main>
 
-      <Footer />
+      <SiteFooter />
     </div>
   );
 };
