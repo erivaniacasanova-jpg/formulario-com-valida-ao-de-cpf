@@ -25,6 +25,12 @@ export interface Plan {
   price: string;
 }
 
+export interface Representative {
+  id: string;
+  nome: string;
+  whatsapp?: string;
+}
+
 export interface ViaCepResponse {
   logradouro: string;
   bairro: string;
