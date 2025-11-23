@@ -1,5 +1,4 @@
 import React from 'react';
-import SiteFooter from './components/SiteFooter';
 import { RegistrationForm } from './components/RegistrationForm';
 import { REPRESENTATIVES, DEFAULT_REPRESENTATIVE } from './utils';
 
@@ -56,12 +55,9 @@ const App: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#eff6ff] font-sans">
-      
       <main className="flex-grow py-12 px-4 sm:px-6 lg:px-8">
         <RegistrationForm representative={currentRepresentative} />
       </main>
-
-      <SiteFooter />
     </div>
   );
 };
